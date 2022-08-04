@@ -46,7 +46,7 @@ services:
       # - --syncmode=fast
       # Blockchain garbage collection mode ("full", "archive") (default: "full")
       # - --gcmode=full
-      - --miner
+      - --mine
       - --miner.gasprice=0
     logging:
       driver: "json-file"
