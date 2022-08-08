@@ -6,7 +6,7 @@ services:
     pull_policy: always
     container_name: ${SIGNER_CONTAINER_NAME}
     env_file:
-      - .env.signer
+      - ../.env.signer
     restart: unless-stopped
     ports:
       - "${SIGNER_INTERNAL_IP}:${SIGNER_ETH_PORT}:30303"
