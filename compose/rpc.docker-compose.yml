@@ -46,6 +46,7 @@ services:
       - --gcmode=full
       - --bootnodes
       - ${RPC_BOOT_NODES}
+      - --networkid=${RPC_CHAIN_ID}
     logging:
       driver: "json-file"
       options:
