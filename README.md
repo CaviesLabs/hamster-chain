@@ -51,7 +51,7 @@ bash scripts/import_account.sh .env.signer
 Run the command below to start the signer node.
 
 ```bash
-docker compose -f compose/signer.docker-compose.yml up -d --force-recreate
+docker compose --env-file .env.signer -f compose/signer.docker-compose.yml up -d --force-recreate
 ```
 
 Make sure you grab the node ID by inspecting the signer log. The node id should start with `enode://` prefix.
@@ -63,7 +63,7 @@ Now you grabbed the signer node id, place it in `.env.rpc` at `RPC_BOOT_NODES`
 Run the command be low to start the rpc node.
 
 ```bash
-docker compose -f compose/rpc.docker-compose.yml up -d --force-recreate
+docker compose --env-file .env.rpc -f compose/rpc.docker-compose.yml up -d --force-recreate
 ```
 
 The rpc endpoint will be live at

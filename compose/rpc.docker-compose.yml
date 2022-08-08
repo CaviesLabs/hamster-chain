@@ -6,8 +6,6 @@ services:
     pull_policy: always
     container_name: ${RPC_CONTAINER_NAME}
     restart: unless-stopped
-    env_file:
-      - ../.env.rpc
     ports:
       - "127.0.0.1:8545:8545"
       - "127.0.0.1:8546:8546"
