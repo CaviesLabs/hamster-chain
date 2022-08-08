@@ -15,7 +15,7 @@ services:
       - "${SIGNER_INTERNAL_IP}:${SIGNER_WEBSOCKET_PORT}:8546"
     volumes:
       - ${SIGNER_DATA_DIR:-/data/signer}:/root/.ethereum
-      - ${SIGNER_PASSWORD_PATH:-/data/signer/password.txt}:/root/password.txt
+      - ./password.txt:/root/password.txt
     stop_signal: SIGINT
     stop_grace_period: 2m
     command:
