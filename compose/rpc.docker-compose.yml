@@ -12,7 +12,7 @@ services:
       - "127.0.0.1:8545:8545"
       - "127.0.0.1:8546:8546"
     volumes:
-      - ${RPC_DATA_DIR:-/data/rpc}:/root/.ethereum
+      - ${DATA_DIR:-/data/rpc}:/root/.ethereum
     stop_signal: SIGINT
     stop_grace_period: 2m
     command:
