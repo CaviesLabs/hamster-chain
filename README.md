@@ -1,41 +1,80 @@
-# Geth Docker
+# Private POA Geth Network
 
-## For Production
+This guide to start a private POA Geth network with 2 nodes: 1 signer (to seal new blocks) and 1 rpc node (for dapp integration).
 
-### docker-compose
+To avoid re-org issues we should use 1 signer instead of multiple signers.
 
-```console
-$ export GETH_DATADIR=/data/geth
-$ docker-compose up -d
+## Prerequisites
+
+- Understand the basis of Geth private network, refer this [docs](https://geth.ethereum.org/docs/interface/private-network)
+- Install docker engine (latest version)
+- Install docker compose (latest version)
+- Install nginx instance (latest version)
+
+## Deploy
+
+### Step 1: Prepare environment variables
+
+Duplicate `.env.rpc.example` and `.env.signer.example` into `.env.rpc` and `.env.signer`.
+
+Prepare `.env.rpc` and `.env.signer` with appropriate values.
+
+For `.env.signer` leave the `SIGNER_BOOT_NODES` empty for now.
+
+### Step 2: Initialize genesis.json
+
+Prepare `genesis.json` by duplicating `genesis.example.json`. Replace signer address in `extradata` section.
+
+Make sure you initialize for both rpc node and signer node.
+
+Then run the commands below:
+
+```bash
+bash scripts/init_node.sh .env.rpc
+bash scripts/init_node.sh .env.signer
 ```
 
-Get logs
+### Step 3: Import signer account to signer node
 
-```console
-$ docker-compose logs -f
-gethnode  | INFO [06-29|23:46:05.878] Starting Geth on Ethereum mainnet... 
-gethnode  | INFO [06-29|23:46:05.878] Bumping default cache on mainnet         provided=1024 updated=4096
-gethnode  | INFO [06-29|23:46:05.880] Maximum peer count                       ETH=50 LES=0 total=50
-gethnode  | INFO [06-29|23:46:05.881] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
-gethnode  | INFO [06-29|23:46:05.892] Set global gas cap                       cap=50,000,000
-gethnode  | INFO [06-29|23:46:05.893] Allocated trie memory caches             clean=614.00MiB dirty=1024.00MiB
-gethnode  | INFO [06-29|23:46:05.894] Allocated cache and file handles         database=/root/.ethereum/geth/chaindata cache=2.00GiB handles=524,288
-gethnode  | INFO [06-29|23:46:05.952] Opened ancient database                  database=/root/.ethereum/geth/chaindata/ancient readonly=false
-gethnode  | INFO [06-29|23:46:05.952] Writing default main-net genesis block 
-gethnode  | INFO [06-29|23:46:06.501] Persisted trie from memory database      nodes=12356 size=1.78MiB time=82.688233ms gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+Prepare a `private_key.txt` with plain-text private key of `SINGER_ADDRESS`.
+
+Also prepare a `password.txt` with plain-text password when you intend to secure the address once it's imported to the signer node.
+
+Then run the command:
+
+```bash
+bash scripts/import_account.sh .env.signer
 ```
 
-### Kubernetes
+### Step 4: Start a signer node
 
-Change [storage class](k8s/storageclass.yaml) and [pvc](k8s/pvc.yaml) first.
+Run the command below to start the signer node.
 
-Start geth node
-
-```
-kubectl apply -f k8s
+```bash
+docker compose -f compose/signer.docker-compose.yml up -d --force-recreate
 ```
 
-## For Development
+Make sure you grab the node ID by inspecting the signer log. The node id should start with `enode://` prefix.
 
-- [Private Networks](https://geth.ethereum.org/docs/interface/private-network)
-- [Dev mode](https://geth.ethereum.org/getting-started/dev-mode)
+### Step 5: Start the RPC node
+
+Now you grabbed the signer node id, place it in `.env.rpc` at `RPC_BOOT_NODES`
+
+Run the command be low to start the rpc node.
+
+```bash
+docker compose -f compose/rpc.docker-compose.yml up -d --force-recreate
+```
+
+The rpc endpoint will be live at
+
+- http://localhost:8545/ (http)
+- http://localhost:8546/ (websocket)
+
+## LICENSE
+
+This repo is MIT Licensed.
+
+## Contacts
+
+Please feel free to contact [khang@cavies.xyz](mailto:khang@cavies.xyz) or [dev@cavies.xyz](mailto:dev@cavies.xyz) if you have any inquiries.

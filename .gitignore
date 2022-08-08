@@ -1,1 +1,6 @@
 chaindata
+genesis.example.json
+.env
+.DS_Store
+private_key.txt
+password.txt
