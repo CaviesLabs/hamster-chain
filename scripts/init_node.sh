@@ -8,5 +8,5 @@ source $(pwd)/$env_path
 
 ### Now init node
 docker run -v $(pwd)/genesis.json:/root/genesis.json \
-  -v ${SIGNER_DATA_DIR}:/root/.ethereum -it ethereum/client-go:stable \
+  -v ${DATA_DIR}:/root/.ethereum -it ethereum/client-go:stable \
   init /root/genesis.json
