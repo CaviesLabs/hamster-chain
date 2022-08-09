@@ -16,7 +16,7 @@ services:
     command:
       - --http
       - --http.api
-      - "eth,net,web3"
+      - "eth,net,web3,network,debug,txpool"
       - --http.addr=0.0.0.0
       - --http.vhosts=*
       - --http.corsdomain=*
@@ -24,7 +24,7 @@ services:
       - --ws.origins=*
       - --ws.addr=0.0.0.0
       - --ws.api
-      - "eth,net,web3"
+      - "eth,net,web3,network,debug,txpool"
       - --graphql
       - --graphql.corsdomain=*
       - --graphql.vhosts=*
