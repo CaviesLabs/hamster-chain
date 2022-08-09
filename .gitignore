@@ -6,3 +6,4 @@ password.txt
 genesis.json
 .env.signer
 .env.rpc
+.env.signer-2
