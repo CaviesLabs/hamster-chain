@@ -43,7 +43,7 @@ services:
       # Blockchain sync mode ("fast", "full", or "light")
       - --syncmode=full
       # Blockchain garbage collection mode ("full", "archive") (default: "full")
-      - --gcmode=full
+      - --gcmode=archive
       - --bootnodes
       - ${RPC_BOOT_NODES}
       - --networkid=${RPC_CHAIN_ID}
