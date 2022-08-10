@@ -1,8 +1,10 @@
-# Private POA Geth Network
+# Private Zero-fee POA Geth Network
 
 This guide to start a private POA Geth network with 2 nodes: 1 signer (to seal new blocks) and 1 rpc node (for dapp integration).
 
 To avoid re-org issues we should use 1 signer instead of multiple signers.
+
+The network also accepts zero-fee transactions to be mined.
 
 ## Prerequisites
 
@@ -10,6 +12,7 @@ To avoid re-org issues we should use 1 signer instead of multiple signers.
 - Install docker engine (latest version)
 - Install docker compose (latest version)
 - Install nginx instance (latest version)
+- Geth image: `ethereum/client-go:v1.10.21`
 
 ## Deploy
 
@@ -56,9 +59,53 @@ Run the command below to start the signer node.
 docker compose --env-file .env.signer -f compose/signer.docker-compose.yml up -d --force-recreate
 ```
 
-Make sure you grab the node ID by inspecting the signer log. The node id should start with `enode://` prefix.
+### Step 5: Set gasprice = 0 and get the node id
 
-### Step 5: Start the RPC node
+For some reasons, the option `--miner.gasprice=0` seems not to be working with `ethereum/client-go:v1.10.21`. So we have to manually adjust gas price = 0 within the ipc console.
+
+Run the command below to access signer ipc console.
+
+```bash
+bash scripts/console.sh env.signer
+```
+
+Then type in the console to set gas price to zero
+
+```ts
+miner.setGasPrice(0)
+```
+
+Then use the command below to get the node id
+
+```ts
+admin.nodeInfo
+```
+
+Below is the sample output
+
+```bash
+> private-poa-geth git:(master) bash scripts/console.sh .env.signer
+
+Welcome to the Geth JavaScript console!
+
+instance: Geth/v1.10.21-stable-67109427/linux-amd64/go1.18.4
+coinbase: 0xac118f16238b5aba99f3c9dddb74d3e635136fec
+at block: 935 (Wed Aug 10 2022 16:20:08 GMT+0000 (UTC))
+ datadir: /root/.ethereum
+ modules: admin:1.0 clique:1.0 debug:1.0 engine:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0
+
+To exit, press ctrl-d or type exit
+> miner.setGasPrice(0)
+true
+> admin.nodeInfo
+{
+  enode: "enode://289688c271bbf9326d5bc1ac977ac4303bd22ef0e19de00fb7122f73b03aec71f26009029deed3e2d6653f92cb1bf197a37027834775313828e27ea217bc8a6d@10.116.0.2:30303",
+  <truncated-output>
+}
+>
+```
+
+### Step 6: Start the RPC node
 
 Now you grabbed the signer node id, place it in `.env.rpc` at `RPC_BOOT_NODES`
 
