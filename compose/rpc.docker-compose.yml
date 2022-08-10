@@ -16,7 +16,7 @@ services:
     command:
       - --http
       - --http.api
-      - "eth,net,web3,network,debug,txpool"
+      - "debug,net,eth,shh,web3,txpool"
       - --http.addr=0.0.0.0
       - --http.vhosts=*
       - --http.corsdomain=*
@@ -43,7 +43,7 @@ services:
       # Blockchain sync mode ("fast", "full", or "light")
       - --syncmode=full
       # Blockchain garbage collection mode ("full", "archive") (default: "full")
-      - --gcmode=full
+      - --gcmode=archive
       - --bootnodes
       - ${RPC_BOOT_NODES}
       - --networkid=${RPC_CHAIN_ID}

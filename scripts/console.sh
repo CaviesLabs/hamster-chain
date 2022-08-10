@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-### Load env path
+### Load env path and extra params
 env_path=$1
+extra_params=$2
 
 ### Load ENV from .env file
 source $(pwd)/$env_path
@@ -10,4 +11,5 @@ source $(pwd)/$env_path
 docker run \
   -v ${DATA_DIR}:/root/.ethereum \
   -it ethereum/client-go:stable \
+  ${extra_params} \
   attach /root/.ethereum/geth.ipc
