@@ -43,7 +43,6 @@ services:
       - --mine
       - --miner.gasprice=0
       - --miner.etherbase=${SIGNER_ADDRESS}
-      - --txpool.pricelimit=0
       - --bootnodes
       - ${SIGNER_BOOT_NODES}
     logging:
