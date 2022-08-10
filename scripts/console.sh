@@ -10,6 +10,6 @@ source $(pwd)/$env_path
 ### Now start javascript console
 docker run \
   -v ${DATA_DIR}:/root/.ethereum \
-  -it ethereum/client-go:stable \
+  -it ethereum/client-go:v1.10.21 \
   ${extra_params} \
   attach /root/.ethereum/geth.ipc
