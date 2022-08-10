@@ -30,9 +30,9 @@ services:
       # Maximum number of network peers (network disabled if set to 0) (default: 25)
       # - --maxpeers=100
       # Blockchain sync mode ("fast", "full", or "light")
-      # - --syncmode=fast
+      - --syncmode=full
       # Blockchain garbage collection mode ("full", "archive") (default: "full")
-      # - --gcmode=full
+      - --gcmode=full
       - --networkid=${SIGNER_CHAIN_ID}
       - --nat
       - extip:${SIGNER_INTERNAL_IP}
