@@ -47,6 +47,7 @@ services:
       - --bootnodes
       - ${RPC_BOOT_NODES}
       - --networkid=${RPC_CHAIN_ID}
+      - --txpool.pricelimit=0
     logging:
       driver: "json-file"
       options:
