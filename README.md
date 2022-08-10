@@ -115,10 +115,14 @@ Run the command be low to start the rpc node.
 docker compose --env-file .env.rpc -f compose/rpc.docker-compose.yml up -d --force-recreate
 ```
 
-The rpc endpoint will be live at
+The rpc endpoint will be live at:
 
 - http://localhost:8545/ (http)
 - http://localhost:8546/ (websocket)
+
+Optionally you can serve those endpoints behind an nginx reverse proxy, please refer [/nginx](/nginx) to see the configs.
+
+Note: The RPC node is compatible with [Blockscout](https://github.com/blockscout/blockscout) explorer. You can host your own explorer with ease by using [Blockscout](https://github.com/blockscout/blockscout).
 
 ## LICENSE
 
