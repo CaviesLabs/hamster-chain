@@ -30,7 +30,7 @@ Make sure you initialize for both rpc node and signer node.
 Then run the commands below:
 
 ```bash
-bash scripts/init_node.sh .env.rpc
+bash scripts/init_node.sh .env.rpc "--gcmode=archive"
 bash scripts/init_node.sh .env.signer
 ```
 
