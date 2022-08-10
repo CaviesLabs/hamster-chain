@@ -42,6 +42,7 @@ services:
       - /root/password.txt
       - --mine
       - --miner.gasprice=0
+      - --txpool.pricelimit=0
       - --bootnodes
       - ${SIGNER_BOOT_NODES}
     logging:
