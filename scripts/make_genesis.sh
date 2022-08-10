@@ -9,5 +9,5 @@ source $(pwd)/$env_path
 
 ### Run init genesis
 docker run -v $(pwd)/genesis-data/:/root/data/ \
-  -it ethereum/client-go:alltools-stable \
+  -it ethereum/client-go:alltools-v1.10.21 \
   puppeth ${extra_params} init
