@@ -41,14 +41,12 @@ bash scripts/init_node.sh .env.signer
 
 Prepare a `private_key.txt` with plain-text private key of `SIGNER_ADDRESS`.
 
-Also prepare a `password.txt` with plain-text password when you intend to secure the address once it's imported to the signer node, also fill `SIGNER_PASSWORD_PATH` with the `password.txt` file path.
-
-
+Also prepare a `password.txt` with plain-text password when you intend to secure the address once it's imported to the signer node, also fill `SIGNER_PASSWORD_PATH` with the absolute `password.txt` file path.
 
 Then run the command:
 
 ```bash
-bash scripts/import_account.sh .env.signer
+bash scripts/import_account.sh .env.signer /<absolute-directory-path>/private_key.txt
 ```
 
 ### Step 4: Start a signer node
