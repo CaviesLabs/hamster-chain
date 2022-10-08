@@ -4,7 +4,7 @@ GraphQL API server for Hamsterchain powered blockchain network.
 
 ## Quick start
 
-Before you start, make sure you prepared a proper `config.json` file, please see [./doc/example/config.json](./doc/example/config.json) for reference.
+Before you start, make sure you prepared a proper `config.json` file, please see [./doc/example,config.json](./doc/example.config.json) for reference.
 
 Then run 
 ```bash
