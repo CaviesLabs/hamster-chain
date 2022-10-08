@@ -122,6 +122,10 @@ Optionally you can serve those endpoints behind an nginx reverse proxy, please r
 
 Note: The RPC node is compatible with [Blockscout](https://github.com/blockscout/blockscout) explorer. You can host your own explorer with ease by using [Blockscout](https://github.com/blockscout/blockscout).
 
+### Step 7: Start the onchain-data aggregator node (optional)
+
+Please see [./graphql/Readme.md](./graphql/README.md).
+
 ## LICENSE
 
 This repo is MIT Licensed.
