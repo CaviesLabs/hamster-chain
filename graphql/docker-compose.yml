@@ -1,0 +1,45 @@
+version: "4"
+
+services:
+  graphql:
+    build: .
+    pull_policy: always
+    container_name: hamster-graphql
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:16761:16761"
+    volumes:
+      - ./config.json:/app/config.json
+    stop_signal: SIGINT
+    stop_grace_period: 2m
+    networks:
+      - graphql
+    depends_on:
+      - my-mongodb
+    command:
+      - -cfg
+      - /app/config.json
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "2m"
+        max-file: "10"
+
+  mongo:
+    container_name: hamster-mongo
+    image: mongo:6.0.2
+    restart: always
+    volumes:
+      - ./mongodata/mongodb:/data/db
+      - ./mongodata/mongoconfig:/data/configdb
+    ports:
+      - "127.0.0.1:27017:27017"
+    networks:
+      - graphql
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: graphql
+      MONGO_INITDB_ROOT_PASSWORD: graphql
+
+networks:
+  graphql:
+    driver: bridge

@@ -1,0 +1,64 @@
+{
+  "app_name": "My GraphQL API for Opera MainNet",
+  "me": {
+    "address": "0xfB09f0cfa1e5cc8804F3cDf78eb657A33550D15B",
+    "pkey": "0x358c73ff038f898a100001f99c38a56e667893ba75a7ab2c7a130ff1890ce8d2"
+  },
+  "server": {
+    "bind": "0.0.0.0:16761",
+    "peers": [],
+    "origin": "*",
+    "cors_origins": [
+      "*"
+    ],
+    "write_timeout": 30,
+    "resolver_timeout": 240
+  },
+  "node": {
+    "url": "wss://rpc.hamsterbox.xyz/ws"
+  },
+  "p2p": {
+    "bind_udp": "0.0.0.0:19173",
+    "geo_db": "city.mmdb",
+    "bootstrap": [
+      "enode://79863155c7278fa8a6a95efa6b8695340e6e91f4e6d793a28c813794412dfca4598a3994eeecb81fcbb26fa27fc658717b3e2140628354e126bbe1d58377f84d@10.116.0.3:30304"
+    ]
+  },
+  "log": {
+    "level": "Info"
+  },
+  "db": {
+    "url": "mongodb://localhost/",
+    "db": "graphql-mainnet"
+  },
+  "compiler": {
+    "temp": "/tmp/solidity",
+    "sol": "/usr/local/bin/solc"
+  },
+  "repository": {
+    "stakers": 1
+  },
+  "staking": {
+    "sfc": "",
+    "sti": "",
+    "tokenizer": "",
+    "token": ""
+  },
+  "defi": {
+    "fmint": {
+      "address_provider": ""
+    },
+    "uniswap": {
+      "core": "",
+      "router": "",
+      "whitelist": [
+        ""
+      ]
+    },
+    "symbols": [ ]
+  },
+  "governance": {
+    "contracts": []
+  },
+  "erc20_tokens_file": "tokens.json"
+}

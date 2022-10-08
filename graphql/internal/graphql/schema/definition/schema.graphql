@@ -1,0 +1,152 @@
+# Root schema definition
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+# Entry points for querying the API
+type Query {
+    # version represents the API server version responding to your requests.
+    version: String!
+
+    # Total number of accounts active on the Opera blockchain.
+    accountsActive:Long!
+
+    # Get an Account information by hash address.
+    account(address:Address!):Account!
+
+    # Get list of Contracts with at most <count> edges.
+    # If <count> is positive, return edges after the cursor,
+    # if negative, return edges before the cursor.
+    # For undefined cursor, positive <count> starts the list from top,
+    # negative <count> starts the list from bottom.
+    # ValidatedOnly specifies if the list should contain all the Contracts,
+    # or just contracts with validated byte code and available source/ABI.
+    contracts(validatedOnly: Boolean = false, cursor:Cursor, count:Int!):ContractList!
+
+    # Get block information by number or by hash.
+    # If neither is provided, the most recent block is given.
+    block(number:Long, hash: Bytes32):Block
+
+    # Get list of Blocks with at most <count> edges.
+    # If <count> is positive, return edges after the cursor,
+    # if negative, return edges before the cursor.
+    # For undefined cursor, positive <count> starts the list from top,
+    # negative <count> starts the list from bottom.
+    blocks(cursor:Cursor, count:Int!):BlockList!
+
+    # Get transaction information for given transaction hash.
+    transaction(hash:Bytes32!):Transaction
+
+    # Get list of Transactions with at most <count> edges.
+    # If <count> is positive, return edges after the cursor,
+    # if negative, return edges before the cursor.
+    # For undefined cursor, positive <count> starts the list from top,
+    # negative <count> starts the list from bottom.
+    transactions(cursor:Cursor, count:Int!):TransactionList!
+
+    # Get filtered list of ERC20 Transactions.
+    erc20Transactions(cursor:Cursor, count:Int = 25, token: Address, account: Address, txType: [TokenTransactionType!]): ERC20TransactionList!
+
+    # Get filtered list of ERC721 Transactions.
+    erc721Transactions(cursor:Cursor, count:Int = 25, token: Address, tokenId: BigInt, account: Address, txType: [TokenTransactionType!]): ERC721TransactionList!
+
+    # Get filtered list of ERC1155 Transactions.
+    erc1155Transactions(cursor:Cursor, count:Int = 25, token: Address, tokenId: BigInt, account: Address, txType: [TokenTransactionType!]): ERC1155TransactionList!
+
+    # Returns the current price per gas in WEI units.
+    gasPrice: Long!
+
+    # estimateGas returns the estimated amount of gas required
+    # for the transaction described by the parameters of the call.
+    estimateGas(from: Address, to: Address, value: BigInt, data: String): Long
+
+    # Get price details of the Opera blockchain token for the given target symbols.
+    price(to:String!):Price!
+
+    # erc20Token provides the information about an ERC20 token specified by it's
+    # address, if available. The resolver returns NULL if the token does not exist.
+    erc20Token(token: Address!):ERC20Token
+
+    # erc20TokenList provides list of the most active ERC20 tokens
+    # deployed on the block chain.
+    erc20TokenList(count: Int = 50):[ERC20Token!]!
+
+    # erc20Assets provides list of tokens owned by the given
+    # account address.
+    erc20Assets(owner: Address!, count: Int = 50):[ERC20Token!]!
+
+    # ercTotalSupply provides the current total supply amount of a specified ERC20 token
+    # identified by it's ERC20 contract address.
+    ercTotalSupply(token: Address!):BigInt!
+
+    # ercTokenBalance provides the current available balance of a specified ERC20 token
+    # identified by it's ERC20 contract address.
+    ercTokenBalance(owner: Address!, token: Address!):BigInt!
+
+    # ercTokenAllowance provides the current amount of ERC20 tokens unlocked
+    # by the token owner for the spender to be manipulated with.
+    ercTokenAllowance(token: Address!, owner: Address!, spender: Address!):BigInt!
+
+    # erc721Contract provides the information about ERC721 non-fungible token (NFT) by it's address.
+    erc721Contract(token: Address!):ERC721Contract
+
+    # erc721ContractList provides list of the most active ERC721 non-fungible tokens (NFT) on the block chain.
+    erc721ContractList(count: Int = 50):[ERC721Contract!]!
+
+    # erc1155Token provides the information about ERC1155 multi-token contract by it's address.
+    erc1155Contract(address: Address!):ERC1155Contract
+
+    # erc1155ContractList provides list of the most active ERC1155 multi-token contract on the block chain.
+    erc1155ContractList(count: Int = 50):[ERC1155Contract!]!
+
+    # trxVolume provides a list of daily aggregations of the network transaction flow.
+    # If boundaries are not defined, last 90 days of aggregated trx flow is provided.
+    # Boundaries are defined in format YYYY-MM-DD, i.e. 2021-01-23 for January 23rd, 2021.
+    trxVolume(from:String, to:String):[DailyTrxVolume!]!
+
+    # trxSpeed provides the recent speed of the network
+    # as number of transactions processed per second
+    # calculated for the given range denominated in secods. I.e. range:300 means last 5 minutes.
+    # Minimal range is 60 seconds, any range below this value will be adjusted to 60 seconds.
+    trxSpeed(range: Int = 1200): Float!
+
+    # trxGasSpeed provides average gas consumed by transactions, either base or cumulative,
+    # per second in the given date/time period. Please specify the ending date and time
+    # as RFC3339 time stamp, i.e. 2021-05-14T00:00:00.000Z. The current time is used if not defined.
+    # The range represents the number of seconds prior the end time stamp
+    # we use to calculate the average gas consumption.
+    trxGasSpeed(range: Int = 1200, to: String): Float!
+
+    # gasPriceList provides a list of gas price ticks for the given date/time span.
+    # If the end time is not specified, the list is provided up to the current date/time.
+    # The maximal date/time span of the list is 30 days.
+    gasPriceList(from: Time! to: Time): [GasPriceTick!]!
+
+    # networkNodesAggregated provides an aggregated list of network nodes on the Opera network.
+    networkNodesAggregated(level: NetworkNodeGroupLevel = COUNTRY): NetworkNodeGroupList!
+}
+
+# Mutation endpoints for modifying the data
+type Mutation {
+    # SendTransaction submits a raw signed transaction into the block chain.
+    # The tx parameter represents raw signed and RLP encoded transaction data.
+    sendTransaction(tx: Bytes!):Transaction
+
+    # Validate a deployed contract byte code with the provided source code
+    # so potential users can check the contract source code, access contract ABI
+    # to be able to interact with the contract and get the right metadata.
+    # Returns updated contract information. If the contract can not be validated,
+    # it raises a GraphQL error.
+    validateContract(contract: ContractValidationInput!): Contract!
+}
+
+# Subscriptions to live events broadcasting
+type Subscription {
+    # Subscribe to receive information about new blocks in the blockchain.
+    onBlock: Block!
+
+    # Subscribe to receive information about new transactions in the blockchain.
+    onTransaction: Transaction!
+}
