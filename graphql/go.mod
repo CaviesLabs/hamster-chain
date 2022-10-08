@@ -1,4 +1,4 @@
-module graphql
+module fantom-api-graphql
 
 go 1.16
 
