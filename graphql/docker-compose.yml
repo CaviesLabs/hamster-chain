@@ -15,7 +15,7 @@ services:
     networks:
       - graphql
     depends_on:
-      - my-mongodb
+      - mongo
     command:
       - -cfg
       - /app/config.json
