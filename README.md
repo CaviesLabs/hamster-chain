@@ -12,7 +12,7 @@ The network also accepts zero-fee transactions to be mined.
 - Install docker engine (latest version)
 - Install docker compose (latest version)
 - Install nginx instance (latest version)
-- Geth image: `ethereum/client-go:v1.10.21`
+- Geth image: `ethereum/client-go:v1.10.23`
 
 ## Deploy
 
@@ -59,7 +59,7 @@ docker compose --env-file .env.signer -f compose/signer.docker-compose.yml up -d
 
 ### Step 5: Set gasprice = 0 and get the node id
 
-For some reasons, the option `--miner.gasprice=0` seems not to be working with `ethereum/client-go:v1.10.21`. So we have to manually adjust gas price = 0 within the ipc console.
+For some reasons, the option `--miner.gasprice=0` seems not to be working with `ethereum/client-go:v1.10.23`. So we have to manually adjust gas price = 0 within the ipc console.
 
 Run the command below to access signer ipc console.
 
@@ -86,7 +86,7 @@ Below is the sample output
 
 Welcome to the Geth JavaScript console!
 
-instance: Geth/v1.10.21-stable-67109427/linux-amd64/go1.18.4
+instance: Geth/v1.10.23-stable-67109427/linux-amd64/go1.18.4
 coinbase: 0xac118f16238b5aba99f3c9dddb74d3e635136fec
 at block: 935 (Wed Aug 10 2022 16:20:08 GMT+0000 (UTC))
  datadir: /root/.ethereum

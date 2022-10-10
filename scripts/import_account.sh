@@ -12,6 +12,6 @@ source $(pwd)/$env_path
 docker run \
   -v ${private_key_path}:/root/private_key.txt \
   -v ${DATA_DIR}:/root/.ethereum \
-  -it ethereum/client-go:v1.10.21 \
+  -it ethereum/client-go:v1.10.23 \
   ${extra_params} \
   account import /root/private_key.txt

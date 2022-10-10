@@ -2,7 +2,7 @@ version: "4"
 
 services:
   rpc_node:
-    image: ethereum/client-go:v1.10.21
+    image: ethereum/client-go:v1.10.23
     pull_policy: always
     container_name: ${RPC_CONTAINER_NAME}
     restart: unless-stopped
@@ -48,6 +48,7 @@ services:
       - ${RPC_BOOT_NODES}
       - --networkid=${RPC_CHAIN_ID}
       - --txpool.pricelimit=0
+      - --ignore-legacy-receipts
     logging:
       driver: "json-file"
       options:
